@@ -15,6 +15,7 @@ const MoviesPage = () => {
     if (query === '') return;
 
     const fetchMovies = async () => {
+      console.log('Fetching movies for query:', query); // Логування запиту для перевірки
       try {
         const response = await axios.get(`${BASE_URL}/search/movie`, {
           params: {
@@ -22,6 +23,7 @@ const MoviesPage = () => {
             query: query,
           },
         });
+        console.log('Movies fetched:', response.data.results); // Логування результатів
         setMovies(response.data.results);
       } catch (error) {
         console.error('Error fetching movies:', error);

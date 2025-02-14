@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styles from './SearchBar.module.css';
 
 const SearchBar = ({ onSubmit }) => {
@@ -14,6 +14,7 @@ const SearchBar = ({ onSubmit }) => {
       alert('Please enter a search term');
       return;
     }
+    console.log('Submitting query:', query); // Логування запиту для перевірки
     onSubmit(query);
     setQuery('');
   };
