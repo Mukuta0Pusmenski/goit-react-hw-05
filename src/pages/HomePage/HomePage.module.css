@@ -1,0 +1,14 @@
+.homePage {
+    text-align: center;
+    color: #333;
+    padding: 20px;
+}
+
+.movieList {
+    list-style: none;
+    padding: 0;
+}
+
+.movieList li {
+    margin-bottom: 10px;
+}
