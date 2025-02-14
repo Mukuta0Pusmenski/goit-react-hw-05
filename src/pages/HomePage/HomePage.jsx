@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import styles from './HomePage.module.css';
@@ -28,11 +28,14 @@ const HomePage = () => {
 
   return (
     <div className={styles.homePage}>
-      <h1>Trending Movies</h1>
+      <h1>Топи фільмів</h1>
       <ul className={styles.movieList}>
         {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+          <li key={movie.id} className={styles.movieItem}>
+            <Link to={`/movies/${movie.id}`}>
+              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+              <p>{movie.title}</p>
+            </Link>
           </li>
         ))}
       </ul>
