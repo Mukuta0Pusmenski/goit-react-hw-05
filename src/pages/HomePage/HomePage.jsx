@@ -1,46 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import styles from './HomePage.module.css';
+import { useParams, useLocation } from 'react-router-dom';
+import MovieCast from '../../components/MovieCast/MovieCast';
+import MovieReviews from '../../components/MovieReviews/MovieReviews';
+import styles from './MovieDetailsPage.module.css';
 
 const API_KEY = '76159f53b3538c0d64e32c8559b5eaef';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const HomePage = () => {
-  const [movies, setMovies] = useState([]);
+const MovieDetailsPage = () => {
+  const { movieId } = useParams();
+  const location = useLocation();
+  const locationRef = useRef(location);
+  const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    const fetchTrendingMovies = async () => {
+    const fetchMovieDetails = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/trending/movie/day`, {
+        const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
           params: {
             api_key: API_KEY,
           },
         });
-        setMovies(response.data.results);
+        setMovie(response.data);
       } catch (error) {
-        console.error('Error fetching trending movies:', error);
+        console.error('Error fetching movie details:', error);
       }
     };
 
-    fetchTrendingMovies();
-  }, []);
+    fetchMovieDetails();
+  }, [movieId]);
+
+  if (!movie) return <div>Loading...</div>;
 
   return (
-    <div className={styles.homePage}>
-      <h1>Топи фільмів</h1>
-      <ul className={styles.movieList}>
-        {movies.map((movie) => (
-          <li key={movie.id} className={styles.movieItem}>
-            <Link to={`/movies/${movie.id}`}>
-              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-              <p>{movie.title}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.movieDetailsPage}>
+      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+      <h2>{movie.title}</h2>
+      <p>{movie.overview}</p>
+      <p>Release date: {movie.release_date}</p>
+      <p>Rating: {movie.vote_average}</p>
+      <MovieCast />
+      <MovieReviews />
     </div>
   );
 };
 
-export default HomePage;
+export default MovieDetailsPage;
