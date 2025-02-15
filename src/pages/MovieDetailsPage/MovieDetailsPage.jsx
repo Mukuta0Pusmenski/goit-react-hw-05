@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import MovieCast from '../../components/MovieCast/MovieCast';
 import MovieReviews from '../../components/MovieReviews/MovieReviews';
 import styles from './MovieDetailsPage.module.css';
@@ -35,6 +35,7 @@ const MovieDetailsPage = () => {
 
   return (
     <div className={styles.movieDetailsPage}>
+      <Link to={locationRef.current.state?.from || '/'}>Go back</Link>
       <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
       <h2>{movie.title}</h2>
       <p>{movie.overview}</p>
