@@ -1,20 +1,28 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Navigation.module.css';
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation/Navigation';
 
-const Navigation = () => {
+// Ліниво завантажуємо компоненти
+const HomePage = lazy(() => import('./pages/HomePage'));
+const MoviesPage = lazy(() => import('./pages/MoviesPage'));
+const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage'));
+const MovieCast = lazy(() => import('./components/MovieCast/MovieCast'));
+const MovieReviews = lazy(() => import('./components/MovieReviews/MovieReviews'));
+
+const App = () => {
   return (
-    <nav className={styles.nav}>
-      <ul>
-        <li>
-          <Link to="/">Топи фільмів</Link>
-        </li>
-        <li>
-          <Link to="/movies">Пошук фільмів за назвою</Link>
-        </li>
-      </ul>
-    </nav>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/movies" element={<MoviesPage />} />
+        <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
+        </Route>
+      </Routes>
+    </Suspense>
   );
 };
 
-export default Navigation;
+export default App;
