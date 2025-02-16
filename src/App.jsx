@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navigation/Navigation';
 
 // Ліниво завантажуємо компоненти
-const HomePage = lazy(() => import('./pages/HomePage'));
+const HomePage = lazy(() => import('../src/pages/HomePage/HomePage'));
 const MoviesPage = lazy(() => import('./pages/MoviesPage'));
 const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage'));
 const MovieCast = lazy(() => import('./components/MovieCast/MovieCast'));
