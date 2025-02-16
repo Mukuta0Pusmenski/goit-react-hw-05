@@ -1,9 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navigation from '../src/components/Navigation/Navigation';
+import Navigation from './components/Navigation/Navigation';
 
-// Ліниво завантажуємо компоненти
-const HomePage = lazy(() => import('../src/pages/HomePage/HomePage'));
+const HomePage = lazy(() => import('./pages/HomePage/HomePage'));
 const MoviesPage = lazy(() => import('./pages/MoviesPage/MoviesPage'));
 const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage/MovieDetailsPage'));
 const MovieCast = lazy(() => import('./components/MovieCast/MovieCast'));
