@@ -1,48 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
-import { useParams, useLocation, Link } from 'react-router-dom';
-import MovieCast from '../../components/MovieCast/MovieCast';
-import MovieReviews from '../../components/MovieReviews/MovieReviews';
 import styles from './MovieDetailsPage.module.css';
-
-const API_KEY = '76159f53b3538c0d64e32c8559b5eaef';
-const BASE_URL = 'https://api.themoviedb.org/3';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
-  const location = useLocation();
-  const locationRef = useRef(location);
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchMovie = async () => {
       try {
-        const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
-          params: {
-            api_key: API_KEY,
-          },
-        });
+        const response = await axios.get(`https://api.example.com/movies/${movieId}`);
         setMovie(response.data);
       } catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.error('Failed to fetch movie:', error);
       }
     };
-
-    fetchMovieDetails();
+    fetchMovie();
   }, [movieId]);
 
   if (!movie) return <div>Loading...</div>;
 
   return (
-    <div className={styles.movieDetailsPage}>
-      <Link to={locationRef.current.state?.from || '/'}>Go back</Link>
-      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+    <div className={styles.movieDetails}>
       <h2>{movie.title}</h2>
       <p>{movie.overview}</p>
-      <p>Release date: {movie.release_date}</p>
-      <p>Rating: {movie.vote_average}</p>
-      <MovieCast />
-      <MovieReviews />
+      <nav className={styles.navigation}>
+        <Link to="cast">Cast</Link>
+        <Link to="reviews">Reviews</Link>
+      </nav>
+      <Outlet />
     </div>
   );
 };
