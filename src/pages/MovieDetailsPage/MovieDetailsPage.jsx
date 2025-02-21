@@ -1,13 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useParams, Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
-  const previousLocation = useRef(location);
+  const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -17,19 +16,15 @@ const MovieDetailsPage = () => {
     fetchMovie();
   }, [movieId]);
 
-  const handleGoBack = () => {
-    navigate(previousLocation.current.state?.from || '/');
-  };
-
   if (!movie) return <div>Loading...</div>;
 
   return (
     <div>
-      <button type="button" onClick={handleGoBack}>Go Back</button>
+      <Link to={backLinkLocationRef.current}>Back</Link>
       <h2>{movie.title}</h2>
       <p>{movie.overview}</p>
       <nav>
-        <Link to="cast" state={{ from: location }}>Cast</Link> | <Link to="reviews" state={{ from: location }}>Reviews</Link>
+        <Link to="cast">Cast</Link> | <Link to="reviews">Reviews</Link>
       </nav>
       <Outlet />
     </div>
