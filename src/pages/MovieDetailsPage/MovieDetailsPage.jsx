@@ -30,6 +30,7 @@ const MovieDetailsPage = () => {
     <div>
       <Link to={backLinkLocationRef.current}>Back</Link>
       <h2>{movie.title}</h2>
+      <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
       <p>{movie.overview}</p>
       <nav>
         <Link to="cast">Cast</Link> | <Link to="reviews">Reviews</Link>
