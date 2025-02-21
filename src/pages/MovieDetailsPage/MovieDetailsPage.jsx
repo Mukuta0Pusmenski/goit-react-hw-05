@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useLocation, Outlet } from 'react-router-dom';
 import axios from 'axios';
 
@@ -10,8 +10,16 @@ const MovieDetailsPage = () => {
 
   useEffect(() => {
     const fetchMovie = async () => {
-      const response = await axios.get(`https://api.example.com/movies/${movieId}`);
-      setMovie(response.data);
+      try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NjE1OWY1M2IzNTM4YzBkNjRlMzJjODU1OWI1ZWFlZiIsIm5iZiI6MTczOTU1ODE2My40Miwic3ViIjoiNjdhZjhkMTM4ODkxN2EwM2YzOGU3NDRhIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.wYv_grSjLbSuGEMayv9it40gdgv3Sx3DTviXGDEueXM`
+          }
+        });
+        setMovie(response.data);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      }
     };
     fetchMovie();
   }, [movieId]);
